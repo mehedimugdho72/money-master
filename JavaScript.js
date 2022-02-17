@@ -34,7 +34,7 @@ calculateExpenseBtn.addEventListener('click', function() {
 
     ) {
 
-        alert("Please Enter a valid Number")
+        alert("Please Enter a Positive Number")
         return;
     }
 
@@ -69,7 +69,7 @@ function saveCalculateBtn() {
         saveInput.value < 0 ||
         saveInput.value == ""
     ) {
-        alert("Please enter  Valid Number")
+        alert("Please enter a Positive Number")
         return;
     }
 
