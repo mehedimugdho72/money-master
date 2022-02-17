@@ -1,66 +1,94 @@
-//click
-document.getElementById("caclulate-btn").addEventListener('click', function() {
-    addInputAndBalanceTotal("income-input")
-})
+// click calculate
+// function
 
-//function
-function addInputAndBalanceTotal(Input) {
-    let incomeInput = document.getElementById(Input);
-    let inputValue = incomeInput.value;
-    if (inputValue < 0) {
-        alert("Please Enter a valid Number")
-    }
+const foodExpense = document.getElementById("food-expense");
+const rentExpense = document.getElementById("rent-expense");
+const clothesExpense = document.getElementById("cloth-expense");
+const incomeInput = document.getElementById("input-income");
 
-
-
-
-    let foodInput = document.getElementById("food-input").value
-    if (foodInput < 0) {
-        alert("Please Enter a valid Number")
-    }
-    document.getElementById("food-input").value = " ";
-    let rantInput = document.getElementById("rent-input").value
-    document.getElementById("rent-input").value = " ";
-    let clothesInput = document.getElementById("clothes-input").value
-    document.getElementById("clothes-input").value = " ";
-
-
-    let total = parseFloat(foodInput) + parseFloat(rantInput) + parseFloat(clothesInput);
-
-    let totalExpenses = document.getElementById("total-expenses");
-
-    totalExpenses.innerText = total;
-
-
-    let blanceTotal = document.getElementById("blance-total")
-    blanceTotal.innerText = inputvalue - total;
-    incomeInput.value = "";
+function calculateExpense() {
+    const total = parseFloat(foodExpense.value) +
+        parseFloat(rentExpense.value) +
+        parseFloat(clothesExpense.value);
+    return total;
 }
 
-//save-button-click
 
-document.getElementById("save-btn").addEventListener('click', function() {
-        addSaveAndremaining("save-input")
-    })
-    // save
-function addSaveAndRemaining(Input) {
-    let saveInput = document.getElementById(Input)
-    let saveInputvalue = parseFloat(saveInput.value)
+//function
 
-    if (saveInputvalue < 0) {
+const calculateExpenseBtn = document.getElementById("calculate-btn");
+calculateExpenseBtn.addEventListener('click', function() {
+
+    if (
+        incomeInput.value < 0 ||
+        incomeInput.value == "" ||
+
+        foodExpense.value == "" ||
+        foodExpense.value < 0 ||
+        rentExpense.value == "" ||
+        rentExpense.value < 0 ||
+
+        clothesExpense.value < 0 ||
+        clothesExpense.value == ""
+
+
+    ) {
+
         alert("Please Enter a valid Number")
+        return;
     }
 
-    let inconeInput = document.getElementById("blance-total")
-    let blanceTotal = inconeInput.innerText
-    let saving = (blanceTotal * saveInputvalue) / 100;
+    let btnFullExpense = calculateExpense(foodExpense, rentExpense, clothesExpense);
 
-    let saveAmount = document.getElementById('save-amount');
-    saveAmount.innerText = saving;
+    const totalExpense = document.getElementById("total-expense")
+    totalExpense.innerText = btnFullExpense;
 
-    document.getElementById("save-input").value = " ";
+    // Error Handling
 
 
-    let remainingBlance = document.getElementById('remaining-amount');
-    remainingBlance.innerText = blanceTotal - saving;
+    if (incomeInput.value > btnFullExpense) {
+
+        const totalBalance = parseFloat(incomeInput.value) - btnFullExpense;
+
+        const balance = document.getElementById("total-balance");
+        balance.innerText = totalBalance;
+    } else {
+        alert("Please Add More Amount ")
+        return;
+    }
+})
+
+//Saving Balance and Remaining Balance Part
+
+function saveCalculateBtn() {
+    const saveInput = document.getElementById("save-input");
+    const savingAmount = document.getElementById("saving-amount");
+    const remainingBalance = document.getElementById("remaining-balance");
+
+    if (
+        saveInput.value < 0 ||
+        saveInput.value == ""
+    ) {
+        alert("Please enter  Valid Number")
+        return;
+    }
+
+    const savePercent = parseFloat(incomeInput.value) * (parseFloat(saveInput.value) / 100);
+    savingAmount.innerText = savePercent;
+
+    let btnFullExpense = calculateExpense(foodExpense, rentExpense, clothesExpense);
+
+    const totalBalance = parseFloat(incomeInput.value) - btnFullExpense;
+
+    // Error Handling
+
+    if (totalBalance > savePercent) {
+        const totalBalance = parseFloat(incomeInput.value) - btnFullExpense;
+        remainingBalance.innerText = totalBalance - savePercent;
+    } else {
+
+        alert("you do not have enough available cash power for saving and marrying")
+        return;
+    }
+
 }
